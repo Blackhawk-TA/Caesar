@@ -20,7 +20,7 @@ namespace Caesar
         private void btn_execute_Click(object sender, EventArgs e)
         {
             //Variablen
-            char[] alphabet = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' }; //Alphabet Array für Ver- / Entschlüsselung
+            char[] alphabet = "abcdefghijklmnopqrstuvwxyz".ToCharArray(); //Alphabet Array für Ver- / Entschlüsselung
             string text_input = box_input.Text.ToLower(); //Speichere Eingabe Text in Variable und transferiere alles in Kleinbuchstaben
             string text_output = ""; //Lege Variable für Ausgabe Text fest
             decimal key = num_key.Value; //Speichere Schlüssel in Variable
