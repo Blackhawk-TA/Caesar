@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btn_execute = new System.Windows.Forms.Button();
             this.rad_encrypt = new System.Windows.Forms.RadioButton();
             this.rad_decrypt = new System.Windows.Forms.RadioButton();
             this.box_input = new System.Windows.Forms.RichTextBox();
@@ -39,16 +38,6 @@
             this.lbl_output = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.num_key)).BeginInit();
             this.SuspendLayout();
-            // 
-            // btn_execute
-            // 
-            this.btn_execute.Location = new System.Drawing.Point(12, 317);
-            this.btn_execute.Name = "btn_execute";
-            this.btn_execute.Size = new System.Drawing.Size(432, 23);
-            this.btn_execute.TabIndex = 0;
-            this.btn_execute.Text = "Ausführen";
-            this.btn_execute.UseVisualStyleBackColor = true;
-            this.btn_execute.Click += new System.EventHandler(this.btn_execute_Click);
             // 
             // rad_encrypt
             // 
@@ -61,6 +50,7 @@
             this.rad_encrypt.TabStop = true;
             this.rad_encrypt.Text = "Verschlüsseln";
             this.rad_encrypt.UseVisualStyleBackColor = true;
+            this.rad_encrypt.CheckedChanged += new System.EventHandler(this.rad_encrypt_CheckedChanged);
             // 
             // rad_decrypt
             // 
@@ -77,16 +67,17 @@
             // 
             this.box_input.Location = new System.Drawing.Point(12, 114);
             this.box_input.Name = "box_input";
-            this.box_input.Size = new System.Drawing.Size(205, 197);
+            this.box_input.Size = new System.Drawing.Size(205, 220);
             this.box_input.TabIndex = 3;
             this.box_input.Text = "";
+            this.box_input.TextChanged += new System.EventHandler(this.box_input_TextChanged);
             // 
             // box_output
             // 
             this.box_output.Location = new System.Drawing.Point(239, 114);
             this.box_output.Name = "box_output";
             this.box_output.ReadOnly = true;
-            this.box_output.Size = new System.Drawing.Size(205, 197);
+            this.box_output.Size = new System.Drawing.Size(205, 220);
             this.box_output.TabIndex = 4;
             this.box_output.Text = "";
             // 
@@ -101,6 +92,7 @@
             this.num_key.Name = "num_key";
             this.num_key.Size = new System.Drawing.Size(120, 20);
             this.num_key.TabIndex = 5;
+            this.num_key.ValueChanged += new System.EventHandler(this.num_key_ValueChanged);
             // 
             // lbl_key
             // 
@@ -142,8 +134,9 @@
             this.Controls.Add(this.box_input);
             this.Controls.Add(this.rad_decrypt);
             this.Controls.Add(this.rad_encrypt);
-            this.Controls.Add(this.btn_execute);
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(472, 385);
+            this.MinimumSize = new System.Drawing.Size(472, 385);
             this.Name = "Form1";
             this.Text = "Caesar";
             ((System.ComponentModel.ISupportInitialize)(this.num_key)).EndInit();
@@ -153,8 +146,6 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Button btn_execute;
         private System.Windows.Forms.RadioButton rad_encrypt;
         private System.Windows.Forms.RadioButton rad_decrypt;
         private System.Windows.Forms.RichTextBox box_input;

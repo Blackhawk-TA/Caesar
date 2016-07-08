@@ -16,12 +16,27 @@ namespace Caesar
         {
             InitializeComponent();
         }
-        
-        private void btn_execute_Click(object sender, EventArgs e)
+
+        private void box_input_TextChanged(object sender, EventArgs e)
         {
-            //Variablen
-            char[] alphabet = "abcdefghijklmnopqrstuvwxyz".ToCharArray(); //Alphabet Array für Ver- / Entschlüsselung
-            string text_input = box_input.Text.ToLower(); //Speichere Eingabe Text in Variable und transferiere alles in Kleinbuchstaben
+            execute();
+        }
+
+        private void num_key_ValueChanged(object sender, EventArgs e)
+        {
+            execute();
+        }
+
+        private void rad_encrypt_CheckedChanged(object sender, EventArgs e)
+        {
+            execute();
+        }
+
+        public void execute()
+        {
+            //Variabeln
+            char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray(); //Alphabet Array für Ver- / Entschlüsselung
+            string text_input = box_input.Text.ToUpper(); //Speichere Eingabe Text in Variable und transferiere alles in Großbuchstaben
             string text_output = ""; //Lege Variable für Ausgabe Text fest
             decimal key = num_key.Value; //Speichere Schlüssel in Variable
             decimal newCharNum = 0; //Variable für Char Nummber die Verschlüsselt bzw Entschlüsselt wurde
@@ -30,39 +45,30 @@ namespace Caesar
             //Für jedes Zeichen in text_chars wird das Zeichen entsprechend des Schlüssels verschoben
             for (int i = 0; i < text_chars.Length; i++)
             {
-                //Wandle Zeichen aus dem Char Array in Alphabet Nummer um (A=0, B=1, C=2, ...)
                 char curChar = text_chars[i];
+                bool charInArray = Array.Exists(alphabet, element => element == curChar); //Bool ob char im Alphabet ist oder nicht
 
-                //Überprüfe für jeden Buchstaben im Alphabet ob er mit der Nummer übereinstimmt
-                for (int k = 0; k < alphabet.Length; k++)
+                if (charInArray) //Char ist im Alphabet vorhanden und wird verschlüsselt
                 {
-                    //Wenn Übereinstimmung gefunden -> entsprechendes Zeichen zurückgeben und Ver- / Entschlüsseln
-                    if (curChar == alphabet[k])
-                    {
-                        //Übereinstimmung gefunden -> Variable festlegen für einfachere Lesbarkeit
-                        decimal plainCharNumber = k;
+                    int curChar_Index = Array.IndexOf(alphabet, curChar); //Wandle Zeichen aus dem Char Array in Alphabet Nummer um (A=0, B=1, C=2, ...)
 
-                        //Verschiebe Buchstabe im Alphabet um den Faktor 'key' (A+2=C, wird hier jedoch in Zahlen gemacht also: 0+2 = 2 -> C)
-                        //Text wird Entschlüsselt
-                        if (rad_decrypt.Checked == true && rad_encrypt.Checked == false) //Überprüfen welcher RadioButton ausgewählt wurde
-                        {
-                            newCharNum = (26 + (plainCharNumber - key)) % 26; //Verschiebung des Buchstabens um 'key' nach links
-                        }
-                        //Text wird Verschlüsselt
-                        else if (rad_decrypt.Checked == false && rad_encrypt.Checked == true) //Überprüfen welcher RadioButton ausgewählt wurde
-                        {
-                            newCharNum = (plainCharNumber + key) % 26; //Verschiebung des Buchstabens um 'key' nach rechts
-                        }
-
-                        //PROBLEM BEI ENTSCHLÜSSELN VON 25er key oder hohen buchstabe wie Z
-                        text_output += alphabet[Convert.ToInt32(newCharNum)]; //text_output String wird um das verschlüsselte Zeichen verlängert
-                        break; //Abbrechen des for loops
-                    }
-                    //Wenn keine Übereinstimmung gefunden -> Zeichen einfach übernehmen also '!' bleibt '!'
-                    else if(k == alphabet.Length-1)
+                    //Verschiebe Buchstabe im Alphabet um den Faktor 'key' (A+2=C, wird hier jedoch in Zahlen gemacht also: 0+2 = 2 -> C)
+                    //Text wird Entschlüsselt
+                    if (rad_decrypt.Checked == true && rad_encrypt.Checked == false) //Überprüfen welcher RadioButton ausgewählt wurde
                     {
-                        text_output += curChar; //text_output String wird um das unverschlüsselte Sonderzeichen verlängert
+                        newCharNum = (26 + (curChar_Index - key)) % 26; //Verschiebung des Buchstabens um 'key' nach links
                     }
+                    //Text wird Verschlüsselt
+                    else if (rad_decrypt.Checked == false && rad_encrypt.Checked == true) //Überprüfen welcher RadioButton ausgewählt wurde
+                    {
+                        newCharNum = (curChar_Index + key) % 26; //Verschiebung des Buchstabens um 'key' nach rechts
+                    }
+
+                    text_output += alphabet[Convert.ToInt32(newCharNum)]; //text_output String wird um das verschlüsselte Zeichen verlängert
+                }
+                else //Wenn keine Übereinstimmung gefunden -> Zeichen einfach übernehmen also '!' bleibt '!'
+                {
+                    text_output += curChar; //text_output String wird um das unverschlüsselte Sonderzeichen verlängert
                 }
             }
             box_output.Text = text_output; //Gib text_output in Ausgabe Textbox aus
